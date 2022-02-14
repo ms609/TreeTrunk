@@ -1,4 +1,5 @@
 test_that('Pectinate trees are generated', {
+  skip_if(Sys.getenv("USING_ASAN") != "")
   expect_equal(ape::read.tree(text = '(t1, (t2, (t3, t4)));'),
                PectinateTree(4L))
   expect_equal(ape::read.tree(text = '(a, (b, (c, (d, e))));'),
@@ -133,6 +134,6 @@ test_that("EnforceOutgroup() fails nicely", {
     BalancedTree(letters[5:6]),
     Subtree(Preorder(EnforceOutgroup(letters[1:8], letters[5:6])), 15)
     ))
-  expect_equal(ape::root(BalancedTree(8), 't1', resolve.root = TRUE),
-               EnforceOutgroup(BalancedTree(8), 't1'))
+  expect_equal(EnforceOutgroup(BalancedTree(8), 't1'),
+               Preorder(ape::root(BalancedTree(8), 't1', resolve.root = TRUE)))
 })
